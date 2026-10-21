@@ -1,0 +1,67 @@
+{
+  "uiMode": "fullscreen",
+  "theme": "tokyo-night-storm-improved",
+  "defaultProvider": "antigravity",
+  "defaultModel": "antigravity/gemini-3.8-flash",
+  "packages": [
+    "npm:pi-theme-tokyo-night-storm-improved",
+    "npm:pi-thinking-box",
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-antigravity",
+    "npm:pi-vcc",
+    "npm:pi-subagents",
+    "npm:pi-background-tasks",
+    "npm:pi-cbm",
+    "npm:@tty-pt/pi-quest",
+    "npm:@tty-pt/pi-mm"
+  ],
+  "subagents": {
+    "agentOverrides": {
+      "reviewer": {
+        "thinking": false
+      }
+    }
+  },
+  "terminal": {
+    "showTerminalProgress": false
+  },
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 4096,
+    "keepRecentTokens": 20000
+  },
+  "pi-quest": {
+    "askTimeoutMs": 60000,
+    "depthCap": 3,
+    "draftThresholds": {
+      "requirements": 2,
+      "evidence": 7
+    },
+    "bindings": {
+      "reviewRunner": {
+        "tool": "subagent"
+      }
+    }
+  },
+  "pi-mm": {
+    "judgeMode": "auto",
+    "judgeUrl": "http://127.0.0.1:4242",
+    "judgeModel": "qwen",
+    "embedUrl": "http://127.0.0.1:4242/v1/embeddings",
+    "embedModel": "bge-small",
+    "semanticSearch": true
+  },
+  "pi-early-compact": {
+    "tiers": [
+      {
+        "upTo": 200000,
+        "pct": 80
+      },
+      {
+        "upTo": 1000000,
+        "pct": 50
+      }
+    ]
+  }
+}

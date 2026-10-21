@@ -1,0 +1,24 @@
+{
+  "overrideDefaultCompaction": true,
+  "debug": false,
+  "extraction": {
+    "references": {
+      "enabled": true,
+      "extraUrlPatterns": [],
+      "extraGithubRefPatterns": ["#\\d+", "GH-\\d+"],
+      "extraVersionPatterns": ["v?\\d+\\.\\d+\\.\\d+"],
+      "extraBranchPatterns": ["feature/[\\w-]+", "fix/[\\w-]+"]
+    },
+    "keySignals": {
+      "enabled": true,
+      "extraConstraintPatterns": ["MUST NOT", "NEVER", "ALWAYS", "INVARIANT:"],
+      "extraDecisionPatterns": ["LOCKED:", "DECISION:", "APPROVED:"],
+      "extraStatusPatterns": ["FIXED:", "RESOLVED:", "VERIFIED:"]
+    },
+    "goals": {
+      "enabled": true,
+      "extraTaskVerbs": ["implement", "refactor", "investigate", "migrate", "audit"],
+      "extraScopeChangeWords": ["instead", "pivoting to", "change of plans", "superseded by"]
+    }
+  }
+}
