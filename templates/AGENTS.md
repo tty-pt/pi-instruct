@@ -28,6 +28,8 @@ make test           # run test suite
 ## 3. Autonomous Quest & Workflow Protocol
 
 All complex work MUST use the Quest Journal workflow (`pi-quest`):
+- Initiate complex tasks deterministically using trigger prefixes (`quest:`, `task:`, `fix:`, `feat:`, `@quest`) or `/quest <name>`.
+- Run `/quest doctor` to verify judge connectivity and intent classification health.
 - Drafting mode locks file writing to `.pi/quest/future/<qid>.md`. Use this phase to scout, list requirements, cite evidence, and author an actionable implementation plan.
 - The plan must meet the maturity bar (2 requirements, or 1 requirement + 7 evidence items) to trigger adversarial review.
 - Once promoted to implementing, follow the approved plan strictly. Record surprises as amendments.
@@ -66,5 +68,7 @@ All complex work MUST use the Quest Journal workflow (`pi-quest`):
 
 ## 7. Episodic Memory Preservation (`pi-mm`)
 
+- Run `/mm doctor` to verify decision judge and vector embedding endpoint health.
+- Use explicit trigger prefixes (`@remember <note>`, `remember: <note>`) to store verified invariants directly into long-term memory without token overhead.
 - Before debugging unfamiliar errors, call `memory_recall` to check if a solution was previously discovered.
 - After resolving an elusive bug or establishing a project invariant, call `memory_record` with the verified test command and git diff.

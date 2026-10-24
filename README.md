@@ -1,130 +1,140 @@
-# Pi Autonomous Coding Stack — Setup Guide
+# Autonomous Pi Coding Stack — 3-Minute Quickstart
 
-Replicate our autonomous **[Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent)** engineering setup in one step.
+Get a complete, fully-featured autonomous terminal engineering setup running with [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent) in under 3 minutes.
 
-You **do not need to install extensions manually**. When you add packages to `~/.pi/agent/settings.json`, Pi automatically downloads, resolves, and loads all of them when it starts.
+One configuration file gives you:
+- **Persistent cross-session memory** (`pi-mm`)
+- **Epistemic plan gating & verification** (`pi-quest`)
+- **Non-blocking background execution & 5-model Fusion** (`pi-background-tasks`)
+- **AST code knowledge graph** (`pi-cbm`)
+- **Deterministic lossless compaction** (`pi-vcc`)
+- **Multi-agent delegation & council** (`pi-subagents`)
+- **Live terminal task HUD** (`rpiv-todo`)
+- **Local neural acceleration & zero-cost embeddings** (`axil-auren`)
 
----
-
-## The Philosophy: Agentic Engineering vs. Prompt-and-Pray
-
-Most developers use AI like an autocomplete or an interactive chatbot:
-> *Prompt $\rightarrow$ Wait $\rightarrow$ Check $\rightarrow$ Prompt again.*
-
-That is not **Agentic Engineering**. Real agentic engineering builds a rigorous system harness around the model:
-1. **Harness Engineering**: Giving the agent deterministic tools, session lineage, and execution hooks.
-2. **Epistemic Planning**: Gating code modification behind formal requirements and independent review (`pi-quest`).
-3. **Memory Engineering**: Giving agents a persistent, cross-session second brain (`pi-mm`).
-4. **Deterministic Compaction**: Lossless, zero-LLM context extraction that survives long tasks (`pi-vcc`).
-5. **Multi-Agent Oversight**: Reviewing intent, edge cases, and architectural trade-offs with independent child agents (`pi-subagents` & `/council`).
-6. **Non-Blocking Execution**: Keeping the terminal live while builds, soak tests, and delegates run asynchronously (`pi-background-tasks`).
-7. **Automated Verification**: Never trusting code until real tests, compiler passes, and quality gates pass.
-
-If you believe software engineering is about building autonomous systems that plan, verify, and ship code rather than manually typing prompts all day, this stack is for you.
+You **do not need to install extensions manually**. When you add packages to `~/.pi/agent/settings.json`, Pi automatically downloads, resolves, and loads all of them on startup.
 
 ---
 
-## 1. Fast Setup (Copy-Paste)
+## 1. Install Pi Coding Agent
 
-Run this in your terminal:
+Requires Node.js 22.19+:
 
 ```bash
-# 1. Install Pi CLI globally (Node 22.19+ required)
 npm install -g @earendil-works/pi-coding-agent
-
-# 2. Download our pre-configured settings.json
-mkdir -p ~/.pi/agent
-curl -fsSL https://raw.githubusercontent.com/tty-pt/site/main/external/pi-instruct/settings.json -o ~/.pi/agent/settings.json
-
-# 3. Start Pi — all extensions are automatically installed on launch!
-pi
 ```
 
-*Or, if you already have this repository cloned locally:*
+---
+
+## 2. Grab the All-in-One Configuration
+
+Download our pre-configured `settings.json` into your global Pi agent config:
 
 ```bash
 mkdir -p ~/.pi/agent
-cp external/pi-instruct/settings.json ~/.pi/agent/settings.json
-pi
+curl -fsSL https://raw.githubusercontent.com/tty-pt/pi-instruct/main/settings.json -o ~/.pi/agent/settings.json
 ```
 
-*(You can inspect the full configuration file directly in [settings.json](settings.json)).*
-
----
-
-## 2. Authenticate Provider
-
-In the Pi prompt, sign in with your Google account to get zero-cost access to **Gemini 3.8 Flash** and **Gemini 2.5 Pro**:
-
-```text
-/login antigravity
-```
-
-*(Or use `/login anthropic` or `/login openai` if you prefer Claude or GPT).*
-
----
-
-## 3. The Extension Stack & Official Documentation
-
-Each extension is maintained independently. Refer to their official documentation for full API and configuration options:
-
-| Extension | Purpose | Official Upstream Documentation |
-| :--- | :--- | :--- |
-| **`@tty-pt/pi-quest`** | Epistemic workflow: locks code edits until a plan passes adversarial review, then validates with tests. | [GitHub Repository](https://github.com/tty-pt/pi-quest) |
-| **`@tty-pt/pi-mm`** | Persistent cross-session memory mipmaps (`libcorm` C DB + vector search) that survive restarts. | [GitHub Repository](https://github.com/tty-pt/pi-mm) |
-| **`pi-vcc`** | Zero-LLM algorithmic conversation compactor. Fast, lossless context preservation + `vcc_recall` history tool. | [GitHub Repository](https://github.com/buihongduc132/pi-vcc) |
-| **`pi-subagents`** | Multi-agent delegation (`scout`, `reviewer`, `oracle`, `worker`, `/council`). | [GitHub Repository](https://github.com/nicobailon/pi-subagents) |
-| **`pi-background-tasks`** | Non-blocking background shell jobs (`bg_run`), inspect-only delegates, and 5-model Fusion. | [GitHub Repository](https://github.com/ismailsaleekh/pi-background-tasks) |
-| **`pi-web-access`** | Real-time web search (Exa, Brave, SearXNG), markdown page fetching, and citation checking. | [GitHub Repository](https://github.com/nicobailon/pi-web-access) |
-| **`@juicesharp/rpiv-todo`** | Live persistent task HUD overlay rendered directly in the terminal above your prompt. | [GitHub Repository](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-todo) |
-| **`pi-antigravity`** | Personal Google Cloud Code Assist provider with automatic account rotation on rate limits. | [GitHub Repository](https://github.com/Rahularya01/pi-antigravity) |
-| **`pi-cbm`** | Bridges `codebase-memory-mcp` AST knowledge graph as native Pi tools (`search_graph`, `trace_path`). | [GitHub Repository](https://github.com/DeusData/codebase-memory-mcp) |
-
----
-
-## 4. Optional Power-Up: Local Neural Daemon with axil-auren
-
-Both `pi-mm` (long-term memory evaluation) and `pi-quest` (intent detection) are pre-configured to talk to a local neural daemon on `http://127.0.0.1:4242`.
-
-Running **[axil-auren](https://github.com/tty-pt/auren)** locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without sending data to external APIs or spending a single token:
-
+*(If you already cloned this repository locally, you can simply run:)*
 ```bash
-# 1. Download two fast, lightweight GGUF models (~530 MB total)
+mkdir -p ~/.pi/agent
+cp settings.json ~/.pi/agent/settings.json
+```
+
+*(Inspect the full configuration directly in [settings.json](settings.json)).*
+
+---
+
+## 3. (Optional Power-Up) Local Neural Daemon with axil-auren
+
+Both `pi-mm` (long-term memory decision judging) and `pi-quest` (intent detection) are pre-configured to talk to a local neural daemon on `http://127.0.0.1:4242`.
+
+Running **[axil-auren](https://github.com/tty-pt/auren)** locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without spending cloud tokens or sending data to third parties:
+
+### A. Download the two tiny models (~530 MB total):
+```bash
 mkdir -p ~/.models
+
+# Generative Chat & Decision Judge (398 MB)
 curl -L -o ~/.models/qwen2.5-0.5b-instruct.gguf \
   https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf
+
+# Semantic Vector Embeddings (133 MB)
 curl -L -o ~/.models/bge-small-en-v1.5.gguf \
   https://huggingface.co/CompendiumLabs/bge-small-en-v1.5-gguf/resolve/main/bge-small-en-v1.5-q8_0.gguf
+```
 
-# 2. Launch axil-auren daemon on port 4242
-# (See https://github.com/tty-pt/auren for building libaxil-auren from source)
+### B. Start the axil-auren daemon on port 4242:
+```bash
 AUREN_JUDGE_MODEL="qwen" \
 AUREN_JUDGE_PATH=~/.models/qwen2.5-0.5b-instruct.gguf \
 AUREN_EMBED_MODEL="bge-small" \
 AUREN_EMBED_PATH=~/.models/bge-small-en-v1.5.gguf \
-axil -A -d -p 4242 -m $HOME/auren/lib/libaxil-auren
+axil -A -d -p 4242 -m libaxil-auren
 ```
 
-*Note: If `axil-auren` is not running, both `pi-mm` and `pi-quest` automatically fail open to local heuristics without crashing.*
+> **Note**: If `axil-auren` is not running, both `pi-mm` and `pi-quest` safely degrade to built-in local heuristics without crashing.
 
 ---
 
-## 5. Enable in a Project (`AGENTS.md`)
+## 4. Launch and Authenticate
 
-Pi reads instructions from `AGENTS.md` in your repository root. To enforce plan gating, TDD, and task tracking, copy our starter template:
+Start Pi in your terminal:
 
 ```bash
-cp external/pi-instruct/templates/AGENTS.md ./AGENTS.md
+pi
+```
+
+On first launch, Pi will automatically download and install all extension packages listed in your `settings.json`.
+
+Then authenticate your provider:
+
+```text
+/login antigravity
+```
+*(Signs in with Google for access to Gemini 3.8 Flash and Gemini 2.5 Pro. Or use `/login anthropic` or `/login openai` if you prefer Claude or GPT).*
+
+---
+
+## 5. Enable in Your Project (`AGENTS.md`)
+
+Pi reads project instructions from `AGENTS.md` in your repository root. Copy our starter template into any project to enforce plan gating, TDD, and task tracking:
+
+```bash
+cp templates/AGENTS.md ./AGENTS.md
 ```
 
 ---
 
-## 6. Keyboard Cheat Sheet
+## What Just Got Installed? (Feature & Upstream Docs)
 
-| Key | Action |
+Each component is maintained independently. Refer to their official documentation for full API and configuration options:
+
+| Extension / Component | What It Does | Official Documentation |
+| :--- | :--- | :--- |
+| **`@tty-pt/pi-mm`** | **Persistent Cross-Session Memory**: Stores lessons, verified bug fixes, and architectural invariants in local C DB (`libcorm`) + vector search (`libsepal`). Survives restarts. | [pi-mm Upstream Docs](https://github.com/tty-pt/pi-mm) |
+| **`@tty-pt/pi-quest`** | **Epistemic Plan Gating**: Locks file editing until a plan passes adversarial review; validates diffs against real tests before shipping. | [pi-quest Upstream Docs](https://github.com/tty-pt/pi-quest) |
+| **`pi-background-tasks`** | **Non-Blocking Execution & Fusion**: Runs long test suites and builds asynchronously (`bg_run`) while you chat; 5-model Fusion reasoning. | [pi-background-tasks Docs](https://github.com/ismailsaleekh/pi-background-tasks) |
+| **`pi-cbm`** | **Code Knowledge Graph**: Direct AST graph navigation (`search_graph`, `trace_path`, `read_symbol`) powered by `codebase-memory-mcp`. | [codebase-memory-mcp Docs](https://github.com/DeusData/codebase-memory-mcp) |
+| **`pi-vcc`** | **Deterministic Compaction**: Lossless algorithmic conversation compaction with `vcc_recall` history search. Saves tokens without hallucinations. | [pi-vcc Upstream Docs](https://github.com/buihongduc132/pi-vcc) |
+| **`pi-subagents`** | **Multi-Agent Oversight**: Spawns isolated child agents (`scout`, `reviewer`, `oracle`, `worker`) and supervisor councils (`/council`). | [pi-subagents Upstream Docs](https://github.com/nicobailon/pi-subagents) |
+| **`@juicesharp/rpiv-todo`** | **Live Task HUD**: Displays active tasks in an interactive terminal overlay directly above your prompt. | [rpiv-todo Upstream Docs](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-todo) |
+| **`pi-web-access`** | **Web Research & Grounding**: Real-time web search (Exa, Brave, SearXNG) and readable markdown page extraction. | [pi-web-access Upstream Docs](https://github.com/nicobailon/pi-web-access) |
+| **`pi-antigravity`** | **Code Assist Provider**: Direct Google Cloud Code Assist connection with automatic account rotation on rate limits. | [pi-antigravity Upstream Docs](https://github.com/Rahularya01/pi-antigravity) |
+| **`axil-auren`** | **Local Neural Daemon**: Ultra-compact C inference engine (`libaxil-auren`) for private embeddings and System One decisions. | [axil-auren Upstream Docs](https://github.com/tty-pt/auren) |
+
+---
+
+## Daily Hotkeys & Essential Commands
+
+| Key / Command | Action |
 | :--- | :--- |
 | `Ctrl + Q` | Open the active **Quest Plan** viewer (`pi-quest`) |
 | `Shift + Down` | Open the **Background Tasks Dock** (`pi-background-tasks`) |
 | `Ctrl + Shift + T` | Toggle the **Todo Overlay Panel** (`rpiv-todo`) |
+| `/quest doctor` | Check health of judge, models, and trigger word families |
+| `/mm doctor` | Check health of memory judge and vector embeddings |
+| `quest: <task>` | Start a quest deterministically using trigger prefixes (`quest:`, `fix:`, `task:`) |
+| `@remember <note>` | Save knowledge directly to long-term memory |
 | `Ctrl + C` | Cancel active generation or running tool |
 | `Ctrl + D` | Exit Pi session |
