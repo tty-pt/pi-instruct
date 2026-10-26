@@ -49,7 +49,7 @@ cp settings.json ~/.pi/agent/settings.json
 
 Both `pi-mm` (long-term memory decision judging) and `pi-quest` (intent detection) are pre-configured to talk to a local neural daemon on `http://127.0.0.1:4242`.
 
-Running **[axil-auren](https://github.com/tty-pt/auren)** locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without spending cloud tokens or sending data to third parties:
+Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instructions](https://github.com/tty-pt/axil-auren#installation--build)) locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without spending cloud tokens or sending data to third parties:
 
 ### A. Download the two tiny models (~530 MB total):
 ```bash
@@ -121,7 +121,21 @@ Each component is maintained independently. Refer to their official documentatio
 | **`@juicesharp/rpiv-todo`** | **Live Task HUD**: Displays active tasks in an interactive terminal overlay directly above your prompt. | [rpiv-todo Upstream Docs](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-todo) |
 | **`pi-web-access`** | **Web Research & Grounding**: Real-time web search (Exa, Brave, SearXNG) and readable markdown page extraction. | [pi-web-access Upstream Docs](https://github.com/nicobailon/pi-web-access) |
 | **`pi-antigravity`** | **Code Assist Provider**: Direct Google Cloud Code Assist connection with automatic account rotation on rate limits. | [pi-antigravity Upstream Docs](https://github.com/Rahularya01/pi-antigravity) |
-| **`axil-auren`** | **Local Neural Daemon**: Ultra-compact C inference engine (`libaxil-auren`) for private embeddings and System One decisions. | [axil-auren Upstream Docs](https://github.com/tty-pt/auren) |
+| **`axil-auren`** | **Local Neural Daemon**: Ultra-compact C inference engine (`libaxil-auren`) for private embeddings and System One decisions. | [axil-auren Upstream Docs](https://github.com/tty-pt/axil-auren) \| [Install Guide](https://github.com/tty-pt/axil-auren#installation--build) |
+
+---
+
+## Core Systems & C Libraries (Under the Hood)
+
+The persistent memory and local acceleration pipeline is built on compiled, pure-C systems:
+
+| C Library / System | Role | Repository & Install Guide |
+| :--- | :--- | :--- |
+| **`libcorm`** | In-memory multidimensional index engine, unified recall kernel, and resident `cormd` daemon. | [libcorm README](https://github.com/tty-pt/libcorm) \| [Install Guide](https://github.com/tty-pt/libcorm#installation--build) |
+| **`libsepal`** | Pure-C Approximate Nearest Neighbor (ANN) vector store with sign-bit Hamming sketches for sub-millisecond embeddings. | [libsepal README](https://github.com/tty-pt/libsepal) \| [Install Guide](https://github.com/tty-pt/libsepal#installation--build) |
+| **`libjoint`** | Interval-tree temporal presence engine for querying co-presence and historical timeline windows. | [libjoint README](https://github.com/tty-pt/libjoint) \| [Install Guide](https://github.com/tty-pt/libjoint#installation--build) |
+| **`liblemma`** | Diacritic-preserving full-text search tokenizer (`pão ≠ pao`) and memory-mapped inverted index. | [liblemma README](https://github.com/tty-pt/liblemma) \| [Install Guide](https://github.com/tty-pt/liblemma#installation--build) |
+| **`axil`** | Ultra-lightweight C HTTP, WebSocket, and module application server. | [axil README](https://github.com/tty-pt/axil) \| [Install Guide](https://github.com/tty-pt/axil#installing) |
 
 ---
 
