@@ -132,6 +132,21 @@ cp templates/AGENTS.md ./AGENTS.md
 
 ---
 
+## What Working With This Feels Like (The Real-World Difference)
+
+Most terminal AI assistants suffer from common, frustrating pitfalls:
+- **Amnesia**: You solve a tricky build quirk on Tuesday, but on Wednesday the agent makes the exact same mistake again because conversation history was compacted away.
+- **Rushing to Code**: The agent blindly edits files without planning, introducing regressions before checking if existing tests even pass.
+- **Terminal Lockup**: When running a 3-minute test suite or build, you're stuck staring at a frozen terminal.
+
+**This stack fundamentally changes that dynamic:**
+1. **Persistent Memory (`pi-mm`)**: Hard-won lessons, architectural rules, and verified fixes are permanently stored in local C tables (`libcorm` + `libsepal`). Across restarts and compactions, Pi automatically recalls relevant knowledge before each prompt.
+2. **Epistemic Plan Gating (`pi-quest`)**: Pi cannot edit feature files until its Implementation Plan passes an automated adversarial review. Diffs must be proven against real tests before completing.
+3. **Non-Blocking Background Tasks (`pi-background-tasks`)**: Long-running tests and builds run quietly in the background (`bg_run`), waking you only when finished.
+4. **Local Acceleration (`axil-auren`)**: Private, sub-millisecond embeddings and quick classification decisions run directly on your machine at zero cloud token cost.
+
+---
+
 ## What Just Got Installed? (Feature & Upstream Docs)
 
 Each component is maintained independently. Refer to their official documentation for full API and configuration options:
