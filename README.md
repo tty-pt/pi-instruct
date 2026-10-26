@@ -16,6 +16,26 @@ You **do not need to install extensions manually**. When you add packages to `~/
 
 ---
 
+## Platform Setup (Linux, macOS, Windows WSL2)
+
+- **Linux & macOS**: Open your native terminal and ensure you have Node.js 22.19+ installed (`node -v`).
+- **Windows (WSL2 Recommended)**: The smoothest way to run Pi, terminal engineering tools, and local C daemons on Windows is via **Windows Subsystem for Linux (WSL2)**:
+  1. Open PowerShell as **Administrator** and run:
+     ```powershell
+     wsl --install
+     ```
+     *(If WSL is already installed, make sure it is updated: `wsl --update`)*.
+  2. Restart Windows if prompted.
+  3. Open **Ubuntu** from your Windows Start Menu, set up your username/password, and install Node.js 22 LTS:
+     ```bash
+     sudo apt update && sudo apt install -y curl build-essential
+     curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+     sudo apt install -y nodejs
+     ```
+  4. Run all subsequent commands inside your Ubuntu terminal! *(Bonus: WSL2 automatically mirrors ports to Windows, so `localhost:4242` is shared across both Windows and Linux).*
+
+---
+
 ## 1. Install Pi Coding Agent
 
 Requires Node.js 22.19+:
@@ -49,7 +69,13 @@ cp settings.json ~/.pi/agent/settings.json
 
 Both `pi-mm` (long-term memory decision judging) and `pi-quest` (intent detection) are pre-configured to talk to a local neural daemon on `http://127.0.0.1:4242`.
 
-Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instructions](https://github.com/tty-pt/axil-auren#installation--build)) locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without spending cloud tokens or sending data to third parties:
+Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instructions](https://github.com/tty-pt/axil-auren#installation--build)) locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without spending cloud tokens or sending data to third parties.
+
+> 💡 **Quick Install on Debian / Ubuntu / WSL2**:
+> ```bash
+> sudo apt install axil axil-auren
+> ```
+> *(Or compile from source via `git clone https://github.com/tty-pt/axil-auren.git && cd axil-auren && make && sudo make install`)*.
 
 ### A. Download the two tiny models (~530 MB total):
 ```bash
