@@ -19,7 +19,7 @@ You **do not need to install extensions manually**. When you add packages to `~/
 ## Platform Setup (Linux, macOS, Windows WSL2)
 
 - **Linux & macOS**: Open your native terminal and ensure you have Node.js 22.19+ installed (`node -v`).
-- **Windows (WSL2 Recommended)**: The smoothest way to run Pi, terminal engineering tools, and local C daemons on Windows is via **Windows Subsystem for Linux (WSL2)**:
+- **Windows (WSL2 Strongly Recommended)**: While native Node.js runs on Windows, the local C daemons (`axil`, `libaxil-auren.so`), shared object loaders, and terminal tools are natively compiled for Linux. Running inside **Windows Subsystem for Linux (WSL2)** is the battle-tested, zero-friction path on Windows:
   1. Open PowerShell as **Administrator** and run:
      ```powershell
      wsl --install
@@ -32,7 +32,7 @@ You **do not need to install extensions manually**. When you add packages to `~/
      curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
      sudo apt install -y nodejs
      ```
-  4. Run all subsequent commands inside your Ubuntu terminal! *(Bonus: WSL2 automatically mirrors ports to Windows, so `localhost:4242` is shared across both Windows and Linux).*
+  4. Run all subsequent commands inside your Ubuntu terminal! *(Bonus: WSL2 automatically mirrors ports to Windows, so `localhost:4242` is shared seamlessly across both Windows and Linux).*
 
 ---
 
