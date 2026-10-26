@@ -71,11 +71,61 @@ Both `pi-mm` (long-term memory decision judging) and `pi-quest` (intent detectio
 
 Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instructions](https://github.com/tty-pt/axil-auren#installation--build)) locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without spending cloud tokens or sending data to third parties.
 
-> 💡 **Quick Install on Debian / Ubuntu / WSL2**:
+> 💡 **Install via Prebuilt Packages**:
+> Click below to expand instructions for your platform:
+> 
+> <details open>
+> <summary><b>Debian / Ubuntu / WSL2 (APT)</b></summary>
+> 
 > ```bash
+> # 1. Add repository signing key
+> sudo mkdir -p /etc/apt/keyrings
+> wget -qO- https://tty.pt/apt/keyrings/archive-key.gpg \
+>     | sudo tee /etc/apt/keyrings/ttypt.asc > /dev/null
+> 
+> # 2. Add repository source list
+> echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/ttypt.asc] https://tty.pt/deb stable main" \
+>     | sudo tee /etc/apt/sources.list.d/ttypt.list
+> 
+> # 3. Update indexes and install axil + axil-auren
+> sudo apt update
 > sudo apt install axil axil-auren
 > ```
-> *(Or compile from source via `git clone https://github.com/tty-pt/axil-auren.git && cd axil-auren && make && sudo make install`)*.
+> 👉 *See the [original APT instructions in tty-pt/ci](https://github.com/tty-pt/ci/blob/main/docs/install.md#apt-ubuntu-debian-etc).*
+> </details>
+> 
+> <details>
+> <summary><b>Arch Linux / MSYS2 (pacman)</b></summary>
+> 
+> ```bash
+> sudo pacman-key --add <(wget -qO- https://tty.pt/pacman/key-ttypt.pub)
+> echo -e "\n[ttypt]\nSigLevel = Required DatabaseOptional\nServer = https://tty.pt/pacman/\$arch" | sudo tee -a /etc/pacman.conf
+> sudo pacman -Sy ttypt/axil ttypt/axil-auren
+> ```
+> 👉 *See the [original pacman instructions in tty-pt/ci](https://github.com/tty-pt/ci/blob/main/docs/install.md#pacman-arch-linux-msys2-etc).*
+> </details>
+> 
+> <details>
+> <summary><b>macOS (Homebrew)</b></summary>
+> 
+> ```bash
+> brew tap tty-pt/tap https://github.com/tty-pt/tap.git
+> brew install axil axil-auren
+> ```
+> 👉 *See the [original Homebrew instructions in tty-pt/ci](https://github.com/tty-pt/ci/blob/main/docs/install.md#brew-macos).*
+> </details>
+> 
+> <details>
+> <summary><b>Build from Source</b></summary>
+> 
+> ```bash
+> git clone https://github.com/tty-pt/axil-auren.git
+> cd axil-auren && make && sudo make install
+> ```
+> 👉 *See the [original axil-auren Source Build Guide](https://github.com/tty-pt/axil-auren#installation--build).*
+> </details>
+> 
+> *(For Alpine, Fedora/RHEL, OpenBSD, and Windows winget, refer to the [Full tty.pt Package Install Guide](https://github.com/tty-pt/ci/blob/main/docs/install.md)).*
 
 ### A. Download the two tiny models (~530 MB total):
 ```bash
