@@ -69,7 +69,7 @@ cp settings.json ~/.pi/agent/settings.json
 
 Both `pi-mm` (long-term memory decision judging) and `pi-quest` (intent detection) are pre-configured to talk to a local neural daemon on `http://127.0.0.1:4242`.
 
-Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instructions](https://github.com/tty-pt/axil-auren#installation--build)) locally gives you private, zero-latency local decisions and dense 384-dimensional vector embeddings without spending cloud tokens or sending data to third parties.
+Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instructions](https://github.com/tty-pt/axil-auren#installation--build)) locally gives you private, zero-latency local decisions and dense vector embeddings (384-dimensional `bge-small` or higher-accuracy 768-dimensional `bge-base`) without spending cloud tokens or sending data to third parties.
 
 > 💡 **Install via Prebuilt Packages**:
 > Click below to expand instructions for your platform:
@@ -127,25 +127,33 @@ Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instruc
 > 
 > *(For Alpine, Fedora/RHEL, OpenBSD, and Windows winget, refer to the [Full tty.pt Package Install Guide](https://github.com/tty-pt/ci/blob/main/docs/install.md)).*
 
-### A. Download the two tiny models (~530 MB total):
+### A. Download the models:
 ```bash
 mkdir -p ~/.models
 
-# Generative Chat & Decision Judge (398 MB)
+# Sparse MoE Generative Chat & Decision Judge (3.34 GB, 1.3B active compute, 7B intelligence)
+curl -L -o ~/.models/olmoe-1b-7b-instruct-q3_k_m.gguf \
+  https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/olmoe-1b-7b-0924-instruct-q3_k_m.gguf
+
+# Dense Ultra-Lightweight Chat & Decision Judge Alternative (398 MB)
 curl -L -o ~/.models/qwen2.5-0.5b-instruct.gguf \
   https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf
 
-# Semantic Vector Embeddings (133 MB)
+# Semantic Vector Embeddings — High accuracy bge-base (118 MB, 768-d, Default)
+curl -L -o ~/.models/bge-base-en-v1.5.gguf \
+  https://huggingface.co/CompendiumLabs/bge-base-en-v1.5-gguf/resolve/main/bge-base-en-v1.5-q8_0.gguf
+
+# Semantic Vector Embeddings — Fast & lightweight bge-small (37 MB, 384-d)
 curl -L -o ~/.models/bge-small-en-v1.5.gguf \
   https://huggingface.co/CompendiumLabs/bge-small-en-v1.5-gguf/resolve/main/bge-small-en-v1.5-q8_0.gguf
 ```
 
 ### B. Start the axil-auren daemon on port 4242:
 ```bash
-AUREN_JUDGE_MODEL="qwen" \
-AUREN_JUDGE_PATH=~/.models/qwen2.5-0.5b-instruct.gguf \
-AUREN_EMBED_MODEL="bge-small" \
-AUREN_EMBED_PATH=~/.models/bge-small-en-v1.5.gguf \
+AUREN_JUDGE_MODEL="olmoe" \
+AUREN_JUDGE_PATH=~/.models/olmoe-1b-7b-instruct-q3_k_m.gguf \
+AUREN_EMBED_MODEL="bge-base" \
+AUREN_EMBED_PATH=~/.models/bge-base-en-v1.5.gguf \
 axil -A -d -p 4242 -m libaxil-auren
 ```
 
