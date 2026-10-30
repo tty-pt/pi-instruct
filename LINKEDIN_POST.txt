@@ -1,37 +1,25 @@
-The biggest problem with AI coding agents isn't raw intelligence — it's chronic amnesia and token waste.
+The biggest problem with AI coding agents isn't intelligence — it's chronic amnesia and token waste.
 
-Every session starts from scratch. You spend 45 minutes on a Tuesday diagnosing an obscure linker flag or concurrency race, only to watch the agent make the exact same blunder two weeks later because the context window was wiped clean. And if you try to make agents "think" about what to remember using generative prompts, you freeze the terminal and burn thousands of tokens every single turn.
+You solve a tricky race condition on Tuesday, and by Thursday the agent repeats the exact same blunder because the context was wiped.
 
-I wanted an autonomous software engineer whose knowledge actually compounds over weeks and months, with zero token waste. 
+I wanted an agent whose knowledge actually compounds over weeks. So I built an open-source, pure-C memory and planning harness for Pi Coding Agent:
 
-So I engineered a pure-C memory and planning harness on top of Pi Coding Agent:
+🧠 Persistent Memory Over Weeks (pi-mm)
+Hierarchical memory in compiled C (libcorm + libsepal). An invariant learned weeks ago is recalled automatically before your prompt hits the model. Best part: the agent hints itself to remember when it discovers key insights—no manual nagging needed.
 
-⚡ 1. Sub-5ms Reflex Decisions (Zero Tokens, Zero Cost)
-Instead of invoking heavy generative LLMs to ask "should I remember this?" or "is this a bug report?", axil-auren runs an in-memory System 1 reflex engine on port 4242. Using SIMD cosine dot products in C against pre-computed exemplar vectors, it classifies intents and evaluates memory decisions in ~5 milliseconds with 0 decode tokens and $0 API cost.
+⚡ Sub-5ms Reflex Decisions (axil-auren)
+Instead of burning tokens asking an LLM "should I remember this?", a local C daemon runs System 1 decisions via SIMD dot products in ~5ms. 0 decode tokens, $0 cost.
 
-🧠 2. Persistent Memory That Lasts for Weeks (With Self-Hinting)
-pi-mm gives the agent long-term memory that survives restarts and context compactions indefinitely. Built on a compiled C engine (libcorm) and vector search (libsepal), it organizes knowledge into hierarchical Memory Mipmaps (L0 execution logs → L1 tasks → L2 subsystem invariants → L3 principles).
+🛡️ Epistemic Plan Gating (pi-quest)
+No more blind edits. Write tools stay locked until the agent cites file-backed evidence and passes an adversarial review. Diffs must pass real tests before shipping.
 
-Even better: the agent hints itself to remember stuff. When it expresses architectural curiosity mid-task or hits a verified technical conclusion, the harness detects the cognitive wondering in real time and quietly steers the agent to consult past lore or record the invariant—completely autonomously, without human nagging. An architectural rule learned three weeks ago is recalled before your prompt even touches the model.
+⚙️ Pure-C Efficiency
+Algorithmic zero-LLM compaction (pi-vcc) and non-blocking background builds (bg_run) in a ~250 MB footprint.
 
-🛡️ 3. Epistemic Plan Gating Before Touching Code
-pi-quest eliminates the "rush-to-edit" habit. It locks file editing tools until the agent scouts the codebase, cites file-backed evidence, and passes an independent adversarial subagent review. Diffs must be proven against real test commands before victory is declared.
+The result is an agent that gets measurably smarter the longer you work with it.
 
-⚙️ 4. Extreme Efficiency Across the Entire Stack
-• Zero-LLM Compaction (pi-vcc): Compresses massive session transcripts algorithmically without fuzzy summaries or hallucinations.
-• Non-Blocking Background Tasks (bg_run): Compiles and test suites run asynchronously without locking the terminal event loop.
-• Pure-C Speed: Microsecond vector indexing and diacritic-sensitive search (pão ≠ pao) run entirely on local CPU RAM (~250 MB footprint).
-
-The result is an agent that gets measurably smarter and faster the longer you work with it.
-
-The entire stack is open-source and pre-configured to work out of the box with zero manual settings:
-
-👉 Setup guide & 60-second quickstart: https://github.com/tty-pt/pi-instruct
+Zero-config setup in 60 seconds:
+👉 https://github.com/tty-pt/pi-instruct
 (or https://lnkd.in/eWbChu_5)
 
-Core repositories:
-• pi-mm: https://github.com/tty-pt/pi-mm
-• pi-quest: https://github.com/tty-pt/pi-quest
-• axil-auren: https://github.com/tty-pt/axil-auren
-
-#SoftwareEngineering #SystemsProgramming #AI #CodingAgents #OpenSource #DevTools #Terminal #BuildInPublic
+#SoftwareEngineering #AI #CodingAgents #OpenSource #DevTools
