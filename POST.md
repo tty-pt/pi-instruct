@@ -2,29 +2,41 @@
 
 ---
 
-I got tired of watching AI coding agents fail the same way every day:
+The biggest problem with AI coding agents isn't raw intelligence—it's **chronic amnesia and token waste**.
 
-- Rushing into code edits without a plan
-- Forgetting a bug fix solved two days ago
-- Hallucinating during token-heavy compactions
-- Freezing the terminal while tests or builds run
+Every session starts from scratch. You spend 45 minutes on a Tuesday diagnosing an obscure linker flag or concurrency race, only to watch the agent make the exact same blunder two weeks later because the context window was wiped clean. And if you try to make agents "think" about what to remember with generative prompts, you freeze the terminal and burn thousands of tokens every single turn.
 
-Most tools treat AI like an autocomplete widget. I wanted an autonomous software engineer with real discipline. So I engineered my own terminal harness on top of [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent):
+I wanted an autonomous software engineer whose knowledge **actually compounds over weeks and months**, with zero token waste. 
 
-• **[pi-quest](https://github.com/tty-pt/pi-quest)**: Locks code edits behind an epistemic plan gate. The agent must research context, cite evidence, and survive an adversarial review before touching files.
+So I engineered this pure-C memory and planning harness on top of [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent):
 
-• **[pi-mm](https://github.com/tty-pt/pi-mm)**: Cross-session persistent memory in compiled C ([libcorm](https://github.com/tty-pt/libcorm)) + vector search ([libsepal](https://github.com/tty-pt/libsepal)). Verified learnings and architectural invariants are remembered across sessions.
+### ⚡ 1. Sub-5ms Reflex Decisions (Zero Tokens, Zero Cost)
+Instead of invoking heavy generative LLMs to ask *"should I remember this?"* or *"is this a bug report?"*, **[axil-auren](https://github.com/tty-pt/axil-auren)** runs an in-memory System 1 reflex engine on port 4242. Using SIMD cosine dot products in C against pre-computed exemplar vectors, it classifies intents and evaluates memory decisions in **~5 milliseconds** with **0 decode tokens** and **$0 API cost**.
 
-• **[axil-auren](https://github.com/tty-pt/axil-auren)**: Native C local daemon hosting nearest-exemplar SIMD decision judging and dense embeddings on port 4242—zero tokens, ~5ms latency, $0 cost.
+### 🧠 2. Persistent Memory That Lasts for Weeks
+**[pi-mm](https://github.com/tty-pt/pi-mm)** gives the agent long-term memory that survives restarts and context compactions indefinitely. Built on a compiled C engine ([libcorm](https://github.com/tty-pt/libcorm)) and vector search ([libsepal](https://github.com/tty-pt/libsepal)), it organizes knowledge into hierarchical **Memory Mipmaps** (L0 execution logs → L1 tasks → L2 subsystem invariants → L3 principles). An architectural rule learned three weeks ago is quietly recalled before your prompt even touches the model.
 
-• **The pipeline**: Algorithmic zero-LLM compaction (`pi-vcc`), child subagent reviews (`pi-subagents`), background tasks (`bg_run`), and a live terminal task HUD (`rpiv-todo`).
+### 🛡️ 3. Epistemic Plan Gating Before Touching Code
+**[pi-quest](https://github.com/tty-pt/pi-quest)** eliminates the "rush-to-edit" habit. It locks file editing tools until the agent scouts the codebase, cites file-backed evidence, and passes an independent adversarial subagent review. Diffs must be proven against real test commands before victory is declared.
 
-The result is a self-correcting terminal harness that plans, builds, reviews, and validates autonomously. I open-sourced the entire setup.
+### ⚙️ 4. Extreme Efficiency Across the Entire Stack
+- **Zero-LLM Compaction (`pi-vcc`)**: Compresses massive session transcripts algorithmically without fuzzy summaries or token-burning hallucinations.
+- **Non-Blocking Background Tasks (`bg_run`)**: Compiles and test suites run asynchronously without locking the terminal event loop.
+- **Pure-C Speed**: Microsecond vector indexing and diacritic-sensitive search (`pão ≠ pao`) run entirely on local CPU RAM (~250 MB footprint).
 
-You can replicate this exact stack in 60 seconds with one settings file:
+---
 
-👉 **pi-instruct**: https://github.com/tty-pt/pi-instruct  
+The result is an agent that gets **measurably smarter and faster the longer you work with it**.
+
+The entire stack is open-source and pre-configured to work out of the box with zero manual settings:
+
+👉 **Quickstart & Setup (`pi-instruct`)**: https://github.com/tty-pt/pi-instruct  
 (or https://lnkd.in/eWbChu_5)
+
+Repositories:
+📦 **pi-mm**: https://github.com/tty-pt/pi-mm  
+📦 **pi-quest**: https://github.com/tty-pt/pi-quest  
+⚡ **axil-auren**: https://github.com/tty-pt/axil-auren
 
 ---
 
