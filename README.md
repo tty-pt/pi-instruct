@@ -1,253 +1,72 @@
-# Autonomous Pi Coding Stack — 3-Minute Quickstart
+# Autonomous Pi Coding Stack
 
-Get a complete, fully-featured autonomous terminal engineering setup running with [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent) in under 3 minutes.
+A disciplined, autonomous engineering harness built on [Pi Coding Agent](https://github.com/earendil-works/pi-coding-agent).
 
-One configuration file gives you:
-- **Persistent cross-session memory** (`pi-mm`)
-- **Epistemic plan gating & verification** (`pi-quest`)
-- **Non-blocking background execution & 5-model Fusion** (`pi-background-tasks`)
-- **AST code knowledge graph** (`pi-cbm`)
-- **Deterministic lossless compaction** (`pi-vcc`)
-- **Multi-agent delegation & council** (`pi-subagents`)
-- **Live terminal task HUD** (`rpiv-todo`)
-- **Local neural acceleration & zero-cost embeddings** (`axil-auren`)
-
-You **do not need to install extensions manually**. When you add packages to `~/.pi/agent/settings.json`, Pi automatically downloads, resolves, and loads all of them on startup.
+Most tools treat AI like an autocomplete widget. This stack turns Pi into an autonomous software engineer that plans before touching files, remembers architectural invariants across restarts, and validates code with automated test gates.
 
 ---
 
-## Platform Setup (Linux, macOS, Windows WSL2)
+## 60-Second Quickstart
 
-- **Linux & macOS**: Open your native terminal and ensure you have Node.js 22.19+ installed (`node -v`).
-- **Windows (WSL2 Strongly Recommended)**: While native Node.js runs on Windows, the local C daemons (`axil`, `libaxil-auren.so`), shared object loaders, and terminal tools are natively compiled for Linux. Running inside **Windows Subsystem for Linux (WSL2)** is the battle-tested, zero-friction path on Windows:
-  1. Open PowerShell as **Administrator** and run:
-     ```powershell
-     wsl --install
-     ```
-     *(If WSL is already installed, make sure it is updated: `wsl --update`)*.
-  2. Restart Windows if prompted.
-  3. Open **Ubuntu** from your Windows Start Menu, set up your username/password, and install Node.js 22 LTS:
-     ```bash
-     sudo apt update && sudo apt install -y curl build-essential
-     curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
-     sudo apt install -y nodejs
-     ```
-  4. Run all subsequent commands inside your Ubuntu terminal! *(Bonus: WSL2 automatically mirrors ports to Windows, so `localhost:4242` is shared seamlessly across both Windows and Linux).*
-
----
-
-## 1. Install Pi Coding Agent
-
-Requires Node.js 22.19+:
-
+### 1. Install Pi CLI
+Requires Node.js 22.19+ (Linux, macOS, or Windows WSL2):
 ```bash
 npm install -g @earendil-works/pi-coding-agent
 ```
 
----
-
-## 2. Grab the All-in-One Configuration
-
-Download our pre-configured `settings.json` into your global Pi agent config:
-
+### 2. Download Settings
+Download the pre-configured `settings.json`:
 ```bash
 mkdir -p ~/.pi/agent
 curl -fsSL https://raw.githubusercontent.com/tty-pt/pi-instruct/main/settings.json -o ~/.pi/agent/settings.json
 ```
 
-*(If you already cloned this repository locally, you can simply run:)*
-```bash
-mkdir -p ~/.pi/agent
-cp settings.json ~/.pi/agent/settings.json
-```
-
-*(Inspect the full configuration directly in [settings.json](settings.json)).*
-
----
-
-## 3. (Optional Power-Up) Local Neural Daemon with axil-auren
-
-Both `pi-mm` (long-term memory decision judging) and `pi-quest` (intent detection) are pre-configured to talk to a local neural daemon on `http://127.0.0.1:4242`.
-
-Running **[axil-auren](https://github.com/tty-pt/axil-auren)** ([install instructions](https://github.com/tty-pt/axil-auren#installation--build)) locally gives you private, zero-latency local decisions and dense vector embeddings (384-dimensional `bge-small` or higher-accuracy 768-dimensional `bge-base`) without spending cloud tokens or sending data to third parties.
-
-> 💡 **Install via Prebuilt Packages**:
-> Click below to expand instructions for your platform:
-> 
-> <details open>
-> <summary><b>Debian / Ubuntu / WSL2 (APT)</b></summary>
-> 
-> ```bash
-> # 1. Add repository signing key
-> sudo mkdir -p /etc/apt/keyrings
-> wget -qO- https://tty.pt/apt/keyrings/archive-key.gpg \
->     | sudo tee /etc/apt/keyrings/ttypt.asc > /dev/null
-> 
-> # 2. Add repository source list
-> echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/ttypt.asc] https://tty.pt/deb stable main" \
->     | sudo tee /etc/apt/sources.list.d/ttypt.list
-> 
-> # 3. Update indexes and install axil + axil-auren
-> sudo apt update
-> sudo apt install axil axil-auren
-> ```
-> 👉 *See the [original APT instructions in tty-pt/ci](https://github.com/tty-pt/ci/blob/main/docs/install.md#apt-ubuntu-debian-etc).*
-> </details>
-> 
-> <details>
-> <summary><b>Arch Linux / MSYS2 (pacman)</b></summary>
-> 
-> ```bash
-> sudo pacman-key --add <(wget -qO- https://tty.pt/pacman/key-ttypt.pub)
-> echo -e "\n[ttypt]\nSigLevel = Required DatabaseOptional\nServer = https://tty.pt/pacman/\$arch" | sudo tee -a /etc/pacman.conf
-> sudo pacman -Sy ttypt/axil ttypt/axil-auren
-> ```
-> 👉 *See the [original pacman instructions in tty-pt/ci](https://github.com/tty-pt/ci/blob/main/docs/install.md#pacman-arch-linux-msys2-etc).*
-> </details>
-> 
-> <details>
-> <summary><b>macOS (Homebrew)</b></summary>
-> 
-> ```bash
-> brew tap tty-pt/tap https://github.com/tty-pt/tap.git
-> brew install axil axil-auren
-> ```
-> 👉 *See the [original Homebrew instructions in tty-pt/ci](https://github.com/tty-pt/ci/blob/main/docs/install.md#brew-macos).*
-> </details>
-> 
-> <details>
-> <summary><b>Build from Source</b></summary>
-> 
-> ```bash
-> git clone https://github.com/tty-pt/axil-auren.git
-> cd axil-auren && make && sudo make install
-> ```
-> 👉 *See the [original axil-auren Source Build Guide](https://github.com/tty-pt/axil-auren#installation--build).*
-> </details>
-> 
-> *(For Alpine, Fedora/RHEL, OpenBSD, and Windows winget, refer to the [Full tty.pt Package Install Guide](https://github.com/tty-pt/ci/blob/main/docs/install.md)).*
-
-### A. Download the models:
-```bash
-mkdir -p ~/.models
-
-# Sparse MoE Generative Chat & Decision Judge (3.34 GB, 1.3B active compute, 7B intelligence)
-curl -L -o ~/.models/olmoe-1b-7b-instruct-q3_k_m.gguf \
-  https://huggingface.co/allenai/OLMoE-1B-7B-0924-Instruct-GGUF/resolve/main/olmoe-1b-7b-0924-instruct-q3_k_m.gguf
-
-# Dense Ultra-Lightweight Chat & Decision Judge Alternative (398 MB)
-curl -L -o ~/.models/qwen2.5-0.5b-instruct.gguf \
-  https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf
-
-# Semantic Vector Embeddings — High accuracy bge-base (118 MB, 768-d, Default)
-curl -L -o ~/.models/bge-base-en-v1.5.gguf \
-  https://huggingface.co/CompendiumLabs/bge-base-en-v1.5-gguf/resolve/main/bge-base-en-v1.5-q8_0.gguf
-
-# Semantic Vector Embeddings — Fast & lightweight bge-small (37 MB, 384-d)
-curl -L -o ~/.models/bge-small-en-v1.5.gguf \
-  https://huggingface.co/CompendiumLabs/bge-small-en-v1.5-gguf/resolve/main/bge-small-en-v1.5-q8_0.gguf
-```
-
-### B. Start the axil-auren daemon on port 4242:
-```bash
-AUREN_JUDGE_MODEL="olmoe" \
-AUREN_JUDGE_PATH=~/.models/olmoe-1b-7b-instruct-q3_k_m.gguf \
-AUREN_EMBED_MODEL="bge-base" \
-AUREN_EMBED_PATH=~/.models/bge-base-en-v1.5.gguf \
-axil -A -d -p 4242 -m libaxil-auren
-```
-
-> **Note**: If `axil-auren` is not running, both `pi-mm` and `pi-quest` safely degrade to built-in local heuristics without crashing.
-
----
-
-## 4. Launch and Authenticate
-
-Start Pi in your terminal:
-
+### 3. Launch
 ```bash
 pi
 ```
-
-On first launch, Pi will automatically download and install all extension packages listed in your `settings.json`.
-
-Then authenticate your provider:
-
-```text
-/login antigravity
-```
-*(Signs in with Google for access to Gemini 3.8 Flash and Gemini 2.5 Pro. Or use `/login anthropic` or `/login openai` if you prefer Claude or GPT).*
+Pi automatically downloads, installs, and configures all extensions on first startup. Authenticate with your preferred model provider (e.g. `/login antigravity`, `/login anthropic`, or `/login openai`).
 
 ---
 
-## 5. Enable in Your Project (`AGENTS.md`)
+## Core Repositories
 
-Pi reads project instructions from `AGENTS.md` in your repository root. Copy our starter template into any project to enforce plan gating, TDD, and task tracking:
+- **[pi-quest](https://github.com/tty-pt/pi-quest)** — Epistemic plan gating. Locks file edits until the agent researches context, cites evidence, and passes an adversarial review. Validates diffs against real test runs before completing.
+- **[pi-mm](https://github.com/tty-pt/pi-mm)** — Persistent memory mipmaps in pure C ([libcorm](https://github.com/tty-pt/libcorm)) and vector search ([libsepal](https://github.com/tty-pt/libsepal)). Automatically recalls past bug fixes and architectural rules across sessions.
+- **[axil-auren](https://github.com/tty-pt/axil-auren)** — Local C daemon on port 4242. Evaluates intent and System 1 decisions via nearest-exemplar SIMD cosine dot products in ~5 ms with zero generated decode tokens and $0 cost.
+
+---
+
+## Optional: Local Neural Acceleration (`axil-auren`)
+
+Both `pi-mm` and `pi-quest` automatically default to `http://127.0.0.1:4242` for zero-cost local decision judging and embeddings:
 
 ```bash
-cp templates/AGENTS.md ./AGENTS.md
+# Ubuntu / Debian / WSL2:
+wget -qO- https://tty.pt/apt/keyrings/archive-key.gpg | sudo tee /etc/apt/keyrings/ttypt.asc > /dev/null
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/ttypt.asc] https://tty.pt/deb stable main" | sudo tee /etc/apt/sources.list.d/ttypt.list
+sudo apt update && sudo apt install -y axil axil-auren
+
+# macOS (Homebrew):
+brew tap tty-pt/tap https://github.com/tty-pt/tap.git
+brew install axil axil-auren
 ```
 
----
-
-## What Working With This Feels Like (The Real-World Difference)
-
-Most terminal AI assistants suffer from common, frustrating pitfalls:
-- **Amnesia**: You solve a tricky build quirk on Tuesday, but on Wednesday the agent makes the exact same mistake again because conversation history was compacted away.
-- **Rushing to Code**: The agent blindly edits files without planning, introducing regressions before checking if existing tests even pass.
-- **Terminal Lockup**: When running a 3-minute test suite or build, you're stuck staring at a frozen terminal.
-
-**This stack fundamentally changes that dynamic:**
-1. **Persistent Memory (`pi-mm`)**: Hard-won lessons, architectural rules, and verified fixes are permanently stored in local C tables (`libcorm` + `libsepal`). Across restarts and compactions, Pi automatically recalls relevant knowledge before each prompt.
-2. **Epistemic Plan Gating (`pi-quest`)**: Pi cannot edit feature files until its Implementation Plan passes an automated adversarial review. Diffs must be proven against real tests before completing.
-3. **Non-Blocking Background Tasks (`pi-background-tasks`)**: Long-running tests and builds run quietly in the background (`bg_run`), waking you only when finished.
-4. **Local Acceleration (`axil-auren`)**: Private, sub-millisecond embeddings and quick classification decisions run directly on your machine at zero cloud token cost.
+Start the daemon (defaults to `bge-base` for embeddings and decision judging):
+```bash
+auren-server
+```
+*(If `axil-auren` is not running, extensions automatically fall back to deterministic local heuristics without crashing).*
 
 ---
 
-## What Just Got Installed? (Feature & Upstream Docs)
-
-Each component is maintained independently. Refer to their official documentation for full API and configuration options:
-
-| Extension / Component | What It Does | Official Documentation |
-| :--- | :--- | :--- |
-| **`@tty-pt/pi-mm`** | **Persistent Cross-Session Memory**: Stores lessons, verified bug fixes, and architectural invariants in local C DB (`libcorm`) + vector search (`libsepal`). Survives restarts. | [pi-mm Upstream Docs](https://github.com/tty-pt/pi-mm) |
-| **`@tty-pt/pi-quest`** | **Epistemic Plan Gating**: Locks file editing until a plan passes adversarial review; validates diffs against real tests before shipping. | [pi-quest Upstream Docs](https://github.com/tty-pt/pi-quest) |
-| **`pi-background-tasks`** | **Non-Blocking Execution & Fusion**: Runs long test suites and builds asynchronously (`bg_run`) while you chat; 5-model Fusion reasoning. | [pi-background-tasks Docs](https://github.com/ismailsaleekh/pi-background-tasks) |
-| **`pi-cbm`** | **Code Knowledge Graph**: Direct AST graph navigation (`search_graph`, `trace_path`, `read_symbol`) powered by `codebase-memory-mcp`. | [codebase-memory-mcp Docs](https://github.com/DeusData/codebase-memory-mcp) |
-| **`pi-vcc`** | **Deterministic Compaction**: Lossless algorithmic conversation compaction with `vcc_recall` history search. Saves tokens without hallucinations. | [pi-vcc Upstream Docs](https://github.com/buihongduc132/pi-vcc) |
-| **`pi-subagents`** | **Multi-Agent Oversight**: Spawns isolated child agents (`scout`, `reviewer`, `oracle`, `worker`) and supervisor councils (`/council`). | [pi-subagents Upstream Docs](https://github.com/nicobailon/pi-subagents) |
-| **`@juicesharp/rpiv-todo`** | **Live Task HUD**: Displays active tasks in an interactive terminal overlay directly above your prompt. | [rpiv-todo Upstream Docs](https://github.com/juicesharp/rpiv-mono/tree/main/packages/rpiv-todo) |
-| **`pi-web-access`** | **Web Research & Grounding**: Real-time web search (Exa, Brave, SearXNG) and readable markdown page extraction. | [pi-web-access Upstream Docs](https://github.com/nicobailon/pi-web-access) |
-| **`pi-antigravity`** | **Code Assist Provider**: Direct Google Cloud Code Assist connection with automatic account rotation on rate limits. | [pi-antigravity Upstream Docs](https://github.com/Rahularya01/pi-antigravity) |
-| **`axil-auren`** | **Local Neural Daemon**: Ultra-compact C inference engine (`libaxil-auren`) for private embeddings and System One decisions. | [axil-auren Upstream Docs](https://github.com/tty-pt/axil-auren) \| [Install Guide](https://github.com/tty-pt/axil-auren#installation--build) |
-
----
-
-## Core Systems & C Libraries (Under the Hood)
-
-The persistent memory and local acceleration pipeline is built on compiled, pure-C systems:
-
-| C Library / System | Role | Repository & Install Guide |
-| :--- | :--- | :--- |
-| **`libcorm`** | In-memory multidimensional index engine, unified recall kernel, and resident `cormd` daemon. | [libcorm README](https://github.com/tty-pt/libcorm) \| [Install Guide](https://github.com/tty-pt/libcorm#installation--build) |
-| **`libsepal`** | Pure-C Approximate Nearest Neighbor (ANN) vector store with sign-bit Hamming sketches for sub-millisecond embeddings. | [libsepal README](https://github.com/tty-pt/libsepal) \| [Install Guide](https://github.com/tty-pt/libsepal#installation--build) |
-| **`libjoint`** | Interval-tree temporal presence engine for querying co-presence and historical timeline windows. | [libjoint README](https://github.com/tty-pt/libjoint) \| [Install Guide](https://github.com/tty-pt/libjoint#installation--build) |
-| **`liblemma`** | Diacritic-preserving full-text search tokenizer (`pão ≠ pao`) and memory-mapped inverted index. | [liblemma README](https://github.com/tty-pt/liblemma) \| [Install Guide](https://github.com/tty-pt/liblemma#installation--build) |
-| **`axil`** | Ultra-lightweight C HTTP, WebSocket, and module application server. | [axil README](https://github.com/tty-pt/axil) \| [Install Guide](https://github.com/tty-pt/axil#installing) |
-
----
-
-## Daily Hotkeys & Essential Commands
+## Daily Hotkeys & Commands
 
 | Key / Command | Action |
 | :--- | :--- |
-| `Ctrl + Q` | Open the active **Quest Plan** viewer (`pi-quest`) |
-| `Shift + Down` | Open the **Background Tasks Dock** (`pi-background-tasks`) |
-| `Ctrl + Shift + T` | Toggle the **Todo Overlay Panel** (`rpiv-todo`) |
-| `/quest doctor` | Check health of judge, models, and trigger word families |
-| `/mm doctor` | Check health of memory judge and vector embeddings |
-| `quest: <task>` | Start a quest deterministically using trigger prefixes (`quest:`, `fix:`, `task:`) |
-| `@remember <note>` | Save knowledge directly to long-term memory |
-| `Ctrl + C` | Cancel active generation or running tool |
-| `Ctrl + D` | Exit Pi session |
+| `Ctrl + Q` | View active Quest Plan (`pi-quest`) |
+| `Shift + Down` | Open Background Tasks Dock (`pi-background-tasks`) |
+| `Ctrl + Shift + T` | Toggle Todo Task HUD (`rpiv-todo`) |
+| `/quest doctor` | Check quest engine and judge health |
+| `/mm doctor` | Check memory engine and vector embedding health |
+| `@remember <note>` | Save invariant or rule to persistent memory |

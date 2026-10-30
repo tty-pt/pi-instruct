@@ -44,14 +44,6 @@
       }
     }
   },
-  "pi-mm": {
-    "captureEmbed": "auto",
-    "captureEmbedUrl": "http://127.0.0.1:4242",
-    "captureEmbedModel": "bge-base",
-    "embedUrl": "http://127.0.0.1:4242/v1/embeddings",
-    "embedModel": "bge-small",
-    "semanticSearch": true
-  },
   "pi-early-compact": {
     "tiers": [
       {
