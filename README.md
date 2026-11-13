@@ -31,15 +31,15 @@ Pi automatically downloads, installs, and configures all extensions on first sta
 
 ## Core Repositories
 
-- **[pi-quest](https://github.com/tty-pt/pi-quest)** — Epistemic plan gating. Locks file edits until the agent researches context, cites evidence, and passes an adversarial review. Validates diffs against real test runs before completing.
-- **[pi-mm](https://github.com/tty-pt/pi-mm)** — Persistent memory mipmaps in pure C ([libcorm](https://github.com/tty-pt/libcorm)) and vector search ([libsepal](https://github.com/tty-pt/libsepal)). Automatically recalls past bug fixes and architectural rules across sessions.
-- **[axil-auren](https://github.com/tty-pt/axil-auren)** — Local C daemon on port 4242. Evaluates intent and System 1 decisions via nearest-exemplar SIMD cosine dot products in ~5 ms with zero generated decode tokens and $0 cost.
+- **[pi-quest](https://github.com/tty-pt/pi-quest)** — Epistemic plan gating. Locks file edits until the agent scouts context, cites file-backed evidence, and passes an independent adversarial subagent review. Enforces real test execution before completion.
+- **[pi-mm](https://github.com/tty-pt/pi-mm)** — Unified persistent memory and AST code intelligence in pure C ([libcorm](https://github.com/tty-pt/libcorm), [libsepal](https://github.com/tty-pt/libsepal), [liblemma](https://github.com/tty-pt/liblemma), [libislet](https://github.com/tty-pt/libislet)). Replaces grep and LSP with instant AST symbol resolution, call graphs, diff blast radius, and cross-session memory that compounds over weeks.
+- **[axil-auren](https://github.com/tty-pt/axil-auren)** — Optional local C daemon on port 4242. Evaluates intent and reflex decisions via SIMD cosine dot products in ~5 ms with zero decode tokens and $0 API cost.
 
 ---
 
 ## Optional: Local Neural Acceleration (`axil-auren`)
 
-Both `pi-mm` and `pi-quest` automatically default to `http://127.0.0.1:4242` for zero-cost local decision judging and embeddings:
+Both `pi-mm` and `pi-quest` automatically detect a running daemon at `http://127.0.0.1:4242` for zero-cost local decision judging and vector embeddings:
 
 ```bash
 # Ubuntu / Debian / WSL2:
@@ -60,13 +60,13 @@ auren-server
 
 ---
 
-## Daily Hotkeys & Commands
+## Daily Hotkeys & Core Workflows
 
 | Key / Command | Action |
 | :--- | :--- |
 | `Ctrl + Q` | View active Quest Plan (`pi-quest`) |
 | `Shift + Down` | Open Background Tasks Dock (`pi-background-tasks`) |
 | `Ctrl + Shift + T` | Toggle Todo Task HUD (`rpiv-todo`) |
-| `/quest doctor` | Check quest engine and judge health |
-| `/mm doctor` | Check memory engine and vector embedding health |
-| `@remember <note>` | Save invariant or rule to persistent memory |
+| `memory_recall` | Instant AST symbol lookup, call graphs, diff blast radius, & persistent lore (`pi-mm`) |
+| `memory_record` | Commit verified invariants and bug resolutions to persistent memory (`pi-mm`) |
+| `bg_run` | Execute long-running test suites and builds asynchronously |

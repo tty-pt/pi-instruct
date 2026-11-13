@@ -27,13 +27,12 @@ make test           # run test suite
 
 ## 3. Autonomous Quest & Workflow Protocol
 
-All complex work MUST use the Quest Journal workflow (`pi-quest`):
-- Initiate complex tasks deterministically using trigger prefixes (`quest:`, `task:`, `fix:`, `feat:`, `@quest`) or `/quest <name>`.
-- Run `/quest doctor` to verify judge connectivity and intent classification health.
-- Drafting mode locks file writing to `.pi/quest/future/<qid>.md`. Use this phase to scout, list requirements, cite evidence, and author an actionable implementation plan.
-- The plan must meet the maturity bar (2 requirements, or 1 requirement + 7 evidence items) to trigger adversarial review.
-- Once promoted to implementing, follow the approved plan strictly. Record surprises as amendments.
-- Validate your implementation by executing real tests. Once verified, claim completion with `quest_update_state({ claimComplete: true })`.
+All multi-step engineering work uses the Quest Journal workflow (`pi-quest`):
+- The assistant automatically initiates and maintains active quests on disk (`.pi/quest/future/<qid>.md`) from user intent without requiring manual syntax prefixes or ritual commands.
+- **Drafting & Epistemic Gating**: File writes outside the quest document remain locked while researching context, enumerating requirements, citing file-backed evidence, and authoring an actionable implementation plan.
+- **Adversarial Review Gate**: Drafts undergo independent adversarial subagent review before implementation begins.
+- **Disciplined Execution**: Follow the approved plan strictly during implementation. Record unexpected discoveries as amendments.
+- **Real Test Gate**: Completion requires proven verification via real test executions (exit code 0); never claim completion on unverified or failing code.
 
 ---
 
@@ -47,14 +46,15 @@ All complex work MUST use the Quest Journal workflow (`pi-quest`):
 
 ---
 
-## 5. Codebase Exploration Protocol (`pi-cbm`)
+## 5. Unified Codebase & Episodic Memory Protocol (`pi-mm`)
 
-- ALWAYS prefer AST knowledge graph tools over raw grep/glob:
-  1. `search_graph`: Find functions, classes, routes by name pattern.
-  2. `trace_path`: Trace who calls a function or what it calls.
-  3. `read_symbol` / `get_code_snippet`: Read exact function/class source code.
-  4. `detect_changes`: Estimate blast radius of local git diffs.
-- Fall back to `grep` or `find` only for configuration files, Dockerfiles, and raw string literals.
+- ALWAYS prefer `memory_recall` over `grep` / `rg` for codebase symbols, AST definitions, call graphs, and past engineering lore:
+  1. Symbol Search & Source Slices: `memory_recall({ scope: "code", query: "<symbol>" })` or `memory_recall({ symbol: "<Name>" })` for compact AST source slices with inbound/outbound callers.
+  2. Call Graph Tracing: `memory_recall({ trace: "<symbol>", direction: "inbound" | "outbound" | "both", depth: 3 })`.
+  3. Git Diff Blast Radius: `memory_recall({ diff: true, depth: 2 })` to map uncommitted line hunks to affected symbols and caller chains.
+  4. Architectural Mipmap: `memory_recall({ scope: "code", overview: true })` for module clusters and dependency DAGs.
+  5. Cross-Session Lore Recall: `memory_recall({ query: "<topic>", scope: "persistent" })` to look up verified solutions and historical invariants.
+- Reserve `grep` or `rg` strictly for configuration files, build scripts, comments, and raw string literals.
 
 ---
 
@@ -68,7 +68,8 @@ All complex work MUST use the Quest Journal workflow (`pi-quest`):
 
 ## 7. Episodic Memory Preservation (`pi-mm`)
 
-- Run `/mm doctor` to verify decision judge and vector embedding endpoint health.
-- Use explicit trigger prefixes (`@remember <note>`, `remember: <note>`) to store verified invariants directly into long-term memory without token overhead.
-- Before debugging unfamiliar errors, call `memory_recall` to check if a solution was previously discovered.
-- After resolving an elusive bug or establishing a project invariant, call `memory_record` with the verified test command and git diff.
+- `pi-mm` automatically recalls relevant invariants and past resolutions before prompt execution.
+- Before debugging unfamiliar errors, call `memory_recall` to check if a solution or invariant was previously discovered.
+- After resolving an elusive bug, discovering a subsystem pitfall, or establishing an invariant, record it into long-term memory via `memory_record`:
+  - Provide a concise `title`, actionable `note`, verified `testCommand`, and modified `files`.
+  - The invariant persists across sessions and survives context resets indefinitely.
